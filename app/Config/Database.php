@@ -27,9 +27,9 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => '',
+        'username'     => 'root',
         'password'     => '',
-        'database'     => '',
+        'database'     => 'creditrack',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -169,7 +169,7 @@ class Database extends Config
         'password'    => '',
         'database'    => ':memory:',
         'DBDriver'    => 'SQLite3',
-        'DBPrefix'    => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
+        'DBPrefix'    => '',
         'pConnect'    => false,
         'DBDebug'     => true,
         'charset'     => 'utf8',
@@ -193,6 +193,15 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
+
+        if (strcasecmp((string) ($this->default['DBDriver'] ?? ''), 'Postgre') === 0) {
+            if (($this->default['charset'] ?? '') === 'utf8mb4' || ($this->default['charset'] ?? '') === '') {
+                $this->default['charset'] = 'utf8';
+            }
+            if (($this->default['DBCollat'] ?? '') === 'utf8mb4_general_ci') {
+                $this->default['DBCollat'] = '';
+            }
+        }
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that

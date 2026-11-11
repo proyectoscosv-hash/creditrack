@@ -10,6 +10,7 @@
     failOnRisky="true"
     failOnWarning="true"
     cacheDirectory="build/.phpunit.cache"
+    defaultTestSuite="Feature"
 >
     <coverage pathCoverage="false" ignoreDeprecatedCodeUnits="true">
         <report>
@@ -23,6 +24,11 @@
     <testsuites>
         <testsuite name="App">
             <directory>./tests</directory>
+            <exclude>./tests/Feature</exclude>
+            <exclude>./tests/unit/HealthTest.php</exclude>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>./tests/Feature</directory>
         </testsuite>
     </testsuites>
 
