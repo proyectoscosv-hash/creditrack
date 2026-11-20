@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Services\AgencyAccessService;
 use CodeIgniter\Config\BaseService;
 
 /**
@@ -29,4 +30,13 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    public static function agencyAccess(bool $getShared = true): AgencyAccessService
+    {
+        if ($getShared) {
+            return static::getSharedInstance('agencyAccess');
+        }
+
+        return new AgencyAccessService();
+    }
 }

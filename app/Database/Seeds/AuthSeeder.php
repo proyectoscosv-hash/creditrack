@@ -10,5 +10,7 @@ class AuthSeeder extends Seeder
     {
         $this->call('PaisSeeder');
         $this->call('UsuarioSeeder');
+        $this->call('MarcaSeeder');
+        $this->call('GeoCatalogSeeder');
     }
 }

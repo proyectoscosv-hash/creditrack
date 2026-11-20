@@ -8,6 +8,11 @@ class CreateAuthTables extends Migration
 {
     public function up(): void
     {
+        $isPostgre = strcasecmp((string) ($this->db->DBDriver ?? ''), 'Postgre') === 0;
+        if ($isPostgre && $this->db->tableExists('pais') && $this->db->tableExists('usuario')) {
+            return;
+        }
+
         // 1. Table: Pais
         $this->forge->addField([
             'Id_pais' => [

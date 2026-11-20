@@ -34,7 +34,9 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
-        'auth'          => \App\Filters\AuthFilter::class,
+        'auth'             => \App\Filters\AuthFilter::class,
+        'supervisor'       => \App\Filters\SupervisorFilter::class,
+        'user_admin_guard' => \App\Filters\UserAdminGuardFilter::class,
     ];
 
     /**
@@ -114,6 +116,32 @@ class Filters extends BaseFilters
                 'home/*',
                 'home.php',
                 'home.php/*',
+            ],
+        ],
+        'supervisor' => [
+            'before' => [
+                'agencias',
+                'agencias/*',
+                'api/agencias',
+                'api/agencias/*',
+                'api/geo',
+                'api/geo/*',
+            ],
+        ],
+        'user_admin_guard' => [
+            'before' => [
+                'usuarios',
+                'usuarios/*',
+                'roles',
+                'roles/*',
+                'permisos',
+                'permisos/*',
+                'api/usuarios',
+                'api/usuarios/*',
+                'api/roles',
+                'api/roles/*',
+                'api/permisos',
+                'api/permisos/*',
             ],
         ],
     ];

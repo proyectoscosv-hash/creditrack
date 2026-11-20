@@ -366,32 +366,71 @@ $login_time      = $login_time ?? (int) (session('login_time') ?: time());
             color: #cbd5e1;
             font-size: 0.82rem;
         }
+
+        /* Dropdown & Header Nav Corporate Styling (Feature 16) */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-btn {
+            background-color: #BF0426;
+            color: #ffffff;
+            border: 1px solid #A61717;
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .dropdown-btn:hover, .dropdown-btn:focus {
+            background-color: #A61717;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(166, 23, 23, 0.3);
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 4px);
+            background-color: #ffffff;
+            min-width: 170px;
+            box-shadow: 0 8px 16px rgba(2, 51, 115, 0.2);
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .dropdown-content a {
+            color: #023373;
+            padding: 0.65rem 1rem;
+            text-decoration: none;
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+        .dropdown-content a:hover {
+            background-color: #f8fafc;
+            color: #BF0426;
+        }
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-    <div class="palette-bar" aria-hidden="true">
-        <span class="palette-swatch-1"></span>
-        <span class="palette-swatch-2"></span>
-        <span class="palette-swatch-3"></span>
-        <span class="palette-swatch-4"></span>
-        <span class="palette-swatch-5"></span>
-    </div>
-
-    <!-- Header Navigation -->
-    <header class="app-header">
-        <div class="header-container">
-            <div class="brand-title">
-                <span>CrediTrack</span>
-                <span class="brand-badge">Acceso Seguro</span>
-            </div>
-            <div class="header-actions">
-                <a href="<?= site_url('logout') ?>" class="btn-logout" role="button" title="Cerrar sesion / Salir">
-                    Cerrar Sesión
-                </a>
-            </div>
-        </div>
-    </header>
+    <?= $this->include('layouts/app_header') ?>
 
     <!-- Main Workspace -->
     <main class="main-container">

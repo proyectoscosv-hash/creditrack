@@ -8,8 +8,15 @@ class UsuarioSeeder extends Seeder
 {
     public function run(): void
     {
+        $isPostgre = strcasecmp((string) ($this->db->DBDriver ?? ''), 'Postgre') === 0;
+        $tables    = $this->db->listTables();
+        $useLower  = $isPostgre && ! in_array('Usuario', $tables, true) && in_array('usuario', $tables, true);
+
+        $table = $useLower ? 'usuario' : 'Usuario';
+        $pkCol = $useLower ? 'codigo_empleado' : 'Codigo_Empleado';
+
         $defaultPasswordHash = password_hash('Password123!', PASSWORD_BCRYPT);
-        $now = date('Y-m-d H:i:s');
+        $now                 = date('Y-m-d H:i:s');
 
         $users = [
             // El Salvador (Id_Pais = 1)
@@ -186,14 +193,14 @@ class UsuarioSeeder extends Seeder
             ],
         ];
 
-        $builder = $this->db->table('Usuario');
-
         foreach ($users as $u) {
-            $existing = $builder->where('Codigo_Empleado', $u['Codigo_Empleado'])->get()->getRow();
+            $payload  = $useLower ? array_change_key_case($u, CASE_LOWER) : $u;
+            $existing = $this->db->table($table)->where($pkCol, $payload[$pkCol])->get()->getRow();
+
             if ($existing) {
-                $builder->where('Codigo_Empleado', $u['Codigo_Empleado'])->update($u);
+                $this->db->table($table)->where($pkCol, $payload[$pkCol])->update($payload);
             } else {
-                $builder->insert($u);
+                $this->db->table($table)->insert($payload);
             }
         }
     }
